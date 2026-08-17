@@ -1,0 +1,9 @@
+Package: com.ninjabee.jpushdisable
+Name: JPush Disable
+Version: 1.0.1
+Architecture: iphoneos-arm
+Description: Disables Jiguang JCore/JPush initialization, collection, and telemetry in the target application.
+Maintainer: silentninja
+Author: silentninja
+Section: Tweaks
+Depends:
