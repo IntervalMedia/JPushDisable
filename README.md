@@ -13,11 +13,13 @@ Research by Reardon, Joel et al. in 2020 showed Jiguang’s SDK invasively monit
 
 ## Build
 
+Requires Theos to build.
+Clone or download this repo and edit the .plist file to include your target application id.
+The Makefile selects `THEOS_PACKAGE_SCHEME=roothide`, change it to '=rootless' for rootless jailbreak support.
+
 ```sh
 make clean package
 ```
-
-The Makefile selects `THEOS_PACKAGE_SCHEME=roothide`, change it to '=rootless' for rootless jailbreak support.
 
 ## Behaviour
 
