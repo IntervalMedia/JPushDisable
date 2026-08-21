@@ -45,6 +45,11 @@ static BOOL JPDHasJiguangClassPrefix(const char *className) {
            strncmp(className, "JPush", 5) == 0 ||
            strncmp(className, "JCORE", 5) == 0 ||
            strncmp(className, "JCore", 5) == 0 ||
+           strncmp(className, "JCORENWUdpSocket", 16) == 0 ||
+           strncmp(className, "JCOREUtilities", 14) == 0 ||
+           strncmp(className, "JCORESDKVersion", 15) == 0 ||
+           strncmp(className, "JCORELog", 8) == 0 ||
+           strncmp(className, "JCOREIntegrate", 15) == 0 ||
            strncmp(className, "JCommon", 7) == 0;
 }
 
@@ -55,10 +60,10 @@ static BOOL JPDIsBlockedSelector(SEL selector) {
     dispatch_once(&onceToken, ^{
         blockedTerms = @[
             @"setup", @"start", @"resume", @"register", @"login",
-            @"connect", @"request", @"send", @"heartbeat",
+            @"connect", @"request", @"send", @"heartbeat",@"initialize",
             @"collect", @"track", @"report", @"upload",
             @"monitor", @"moniter", @"location", @"paste",
-            @"applist", @"activeuser", @"crash"
+            @"applist", @"activeuser", @"crash", @"init", @"config"
         ];
     });
 
