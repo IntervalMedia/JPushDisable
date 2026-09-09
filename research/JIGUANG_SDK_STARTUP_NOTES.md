@@ -76,6 +76,12 @@ current build caches each class/metaclass method-table size and repeats the
 walk only when a later image adds methods, preserving category coverage without
 repeated full mutation passes.
 
+The follow-up console trace showed that method-table caching alone was not
+enough: dyld callbacks arrived about every 31 ms, and each callback still
+copied the complete runtime class list and logged `0` work. The current build
+also gates the callback on `objc_getClassList(NULL, 0)`, returning before class
+list copying when the runtime class count is unchanged.
+
 ## Evidence still needed
 
 The local tests cannot reproduce a device launch. The next probe needs the

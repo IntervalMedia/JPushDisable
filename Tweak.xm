@@ -48,6 +48,9 @@ static NSMutableDictionary<NSValue *, NSNumber *> *JPDLastMethodCounts(void) {
     return methodCounts;
 }
 
+static NSUInteger JPDLastRuntimeClassCount = 0;
+static BOOL JPDCompletedInitialScan = NO;
+
 static BOOL JPDClassNeedsScan(Class targetClass) {
     NSValue *key = [NSValue valueWithPointer:(__bridge const void *)(targetClass)];
     NSNumber *lastCount = JPDLastMethodCounts()[key];
@@ -64,6 +67,19 @@ static void JPDRememberClassMethodCount(Class targetClass) {
 }
 
 static void JPDInstallHooks(void) {
+    NSUInteger runtimeClassCount = (NSUInteger)objc_getClassList(NULL, 0);
+    @synchronized (JPDLastMethodCounts()) {
+        // dyld can report many image additions while the process launches.
+        // If no Objective-C classes were added, there is nothing new for the
+        // manifest to inspect and we must return before copying the class list.
+        if (JPDCompletedInitialScan &&
+            runtimeClassCount == JPDLastRuntimeClassCount) {
+            return;
+        }
+        JPDLastRuntimeClassCount = runtimeClassCount;
+        JPDCompletedInitialScan = YES;
+    }
+
     unsigned int classCount = 0;
     Class *classes = objc_copyClassList(&classCount);
     if (classes == NULL) {
