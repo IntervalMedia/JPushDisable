@@ -11,7 +11,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME := JPushDisable
 
-JPushDisable_FILES := Tweak.xm
+JPushDisable_FILES := Tweak.xm JPDMethodNeutralizer.mm
 JPushDisable_CFLAGS := -fobjc-arc -Wall -Wextra
 
 include $(THEOS_MAKE_PATH)/tweak.mk
