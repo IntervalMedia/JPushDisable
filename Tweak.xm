@@ -100,14 +100,14 @@ static void JPDInstallHooks(void) {
             // metaclass. Revisit a class only when a newly loaded image added
             // methods (for example through a category).
             if (JPDClassNeedsScan(cls)) {
-                hookedCount += JPDNeutralizeMethodsDeclaredByClass(cls);
+                hookedCount += JPDNeutralizeMethodsDeclaredByClass(cls, YES);
                 JPDRememberClassMethodCount(cls);
                 scannedClassCount++;
             }
 
             Class metaClass = object_getClass(cls);
             if (metaClass != Nil && JPDClassNeedsScan(metaClass)) {
-                hookedCount += JPDNeutralizeMethodsDeclaredByClass(metaClass);
+                hookedCount += JPDNeutralizeMethodsDeclaredByClass(metaClass, YES);
                 JPDRememberClassMethodCount(metaClass);
                 scannedClassCount++;
             }

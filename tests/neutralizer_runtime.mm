@@ -67,8 +67,8 @@ static NSUInteger executionCount = 0;
 
 int main(void) {
     @autoreleasepool {
-        JPDNeutralizeMethodsDeclaredByClass(JPDNeutralizerFixture.class);
-        JPDNeutralizeMethodsDeclaredByClass(object_getClass(JPDNeutralizerFixture.class));
+        JPDNeutralizeMethodsDeclaredByClass(JPDNeutralizerFixture.class, NO);
+        JPDNeutralizeMethodsDeclaredByClass(object_getClass(JPDNeutralizerFixture.class), NO);
 
         JPDNeutralizerFixture *fixture = [JPDNeutralizerFixture new];
         if (fixture == nil || executionCount != 1) {

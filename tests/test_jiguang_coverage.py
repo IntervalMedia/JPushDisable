@@ -50,6 +50,8 @@ class JiguangCoverageTests(unittest.TestCase):
         neutralizer_source = (REPO_ROOT / "JPDMethodNeutralizer.mm").read_text()
 
         self.assertIn("JPDShouldPreserveSelector", neutralizer_source)
+        self.assertIn("JPDShouldNeutralizeSelector", neutralizer_source)
+        self.assertIn('"registerDevice"', neutralizer_source)
         self.assertIn('strcmp(name, "init")', neutralizer_source)
         self.assertIn("_objc_msgForward", neutralizer_source)
         for return_encoding in ("f", "d", "D", ":", "*"):

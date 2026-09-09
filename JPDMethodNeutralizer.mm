@@ -112,6 +112,40 @@ static BOOL JPDShouldPreserveSelector(SEL selector) {
            strcmp(name, "service") == 0 || strcmp(name, "instance") == 0;
 }
 
+static BOOL JPDHasPrefix(const char *name, const char *prefix) {
+    return strncmp(name, prefix, strlen(prefix)) == 0;
+}
+
+static BOOL JPDShouldNeutralizeSelector(SEL selector) {
+    const char *name = sel_getName(selector);
+    if (name == NULL || JPDShouldPreserveSelector(selector)) {
+        return NO;
+    }
+
+    // High-confidence SDK actions. Property accessors and data-model methods
+    // are deliberately left alone so internal launch configuration survives.
+    static const char *const prefixes[] = {
+        "setup",       "commonSetup",  "registerFor", "registerDevice",
+        "unregister",  "report",       "send",        "upload",
+        "collect",     "track",        "connect",     "disconnect",
+        "login",       "logout",       "push",        "handleRemote",
+        "turnOn",      "turnOff",      "addNotification",
+        "removeNotification",          "findNotification",
+        "startNetwork", "stopNetwork", "openConnection", "closeConnection",
+    };
+    for (size_t index = 0; index < sizeof(prefixes) / sizeof(prefixes[0]);
+         index++) {
+        if (JPDHasPrefix(name, prefixes[index])) {
+            return YES;
+        }
+    }
+
+    // These public JPush mutators are action APIs, unlike ordinary model
+    // setters used during object construction.
+    return JPDHasPrefix(name, "setTags") || JPDHasPrefix(name, "setAlias") ||
+           JPDHasPrefix(name, "setBadge");
+}
+
 static IMP JPDReplacementForMethod(Method method) {
     switch (JPDReturnTypeForMethod(method)) {
         case 'v':
@@ -143,7 +177,7 @@ static IMP JPDReplacementForMethod(Method method) {
     }
 }
 
-NSUInteger JPDNeutralizeMethodsDeclaredByClass(Class targetClass) {
+NSUInteger JPDNeutralizeMethodsDeclaredByClass(Class targetClass, BOOL selective) {
     unsigned int methodCount = 0;
     Method *methods = class_copyMethodList(targetClass, &methodCount);
     NSUInteger neutralizedCount = 0;
@@ -153,7 +187,8 @@ NSUInteger JPDNeutralizeMethodsDeclaredByClass(Class targetClass) {
         SEL selector = method_getName(method);
         if (JPDShouldPreserveSelector(selector) ||
             selector == @selector(methodSignatureForSelector:) ||
-            selector == @selector(forwardInvocation:)) {
+            selector == @selector(forwardInvocation:) ||
+            (selective && !JPDShouldNeutralizeSelector(selector))) {
             continue;
         }
 
@@ -167,9 +202,11 @@ NSUInteger JPDNeutralizeMethodsDeclaredByClass(Class targetClass) {
 
     free(methods);
 
-    class_replaceMethod(targetClass, @selector(methodSignatureForSelector:),
-                        (IMP)JPDDisabledMethodSignature, "@@::");
-    class_replaceMethod(targetClass, @selector(forwardInvocation:),
-                        (IMP)JPDDisabledForwardInvocation, "v@:@");
+    if (neutralizedCount > 0) {
+        class_replaceMethod(targetClass, @selector(methodSignatureForSelector:),
+                            (IMP)JPDDisabledMethodSignature, "@@::");
+        class_replaceMethod(targetClass, @selector(forwardInvocation:),
+                            (IMP)JPDDisabledForwardInvocation, "v@:@");
+    }
     return neutralizedCount;
 }

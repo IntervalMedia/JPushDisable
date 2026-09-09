@@ -82,6 +82,14 @@ copied the complete runtime class list and logged `0` work. The current build
 also gates the callback on `objc_getClassList(NULL, 0)`, returning before class
 list copying when the runtime class count is unchanged.
 
+The latest launch showed the initial 4,778-method pass itself taking roughly
+14.6 seconds. The neutralizer therefore now uses a selective action policy in
+the production tweak: it targets high-confidence setup, registration, report,
+send/upload, collection, transport, login, push, and notification selectors,
+while preserving ordinary model/configuration accessors. The test harness still
+exercises aggressive all-method replacement separately so ABI behavior remains
+covered.
+
 ## Evidence still needed
 
 The local tests cannot reproduce a device launch. The next probe needs the

@@ -3,32 +3,35 @@ triple:          'arm64e-apple-darwin'
 binary-path:     '/Users/cashies/Code/JPushDisableTweak/GithubUpload/.theos/obj/debug/arm64e/JPushDisable.dylib'
 relocations:
   - { offset: 0x1E, size: 0x8, addend: 0x0, symName: __ZL24_logosLocalCtor_28935dd4iPPcS0_, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x54 }
-  - { offset: 0x2B, size: 0x8, addend: 0x0, symName: __ZL19JPDLastMethodCountsv, symObjAddr: 0x350, symBinAddr: 0x4350, symSize: 0x88 }
-  - { offset: 0x54, size: 0x8, addend: 0x0, symName: __ZZL19JPDLastMethodCountsvE12methodCounts, symObjAddr: 0x67A0, symBinAddr: 0xC0B8, symSize: 0x0 }
-  - { offset: 0x69, size: 0x8, addend: 0x0, symName: __ZZL19JPDLastMethodCountsvE9onceToken, symObjAddr: 0x67A8, symBinAddr: 0xC0C0, symSize: 0x0 }
-  - { offset: 0x13A, size: 0x8, addend: 0x0, symName: __ZL23JPDCompletedInitialScan, symObjAddr: 0x6790, symBinAddr: 0xC0A8, symSize: 0x0 }
-  - { offset: 0x165, size: 0x8, addend: 0x0, symName: __ZL24JPDLastRuntimeClassCount, symObjAddr: 0x6798, symBinAddr: 0xC0B0, symSize: 0x0 }
-  - { offset: 0x172, size: 0x8, addend: 0x0, symName: __ZL25JPDKnownJiguangClassNamesv, symObjAddr: 0x7F8, symBinAddr: 0x47F8, symSize: 0x88 }
-  - { offset: 0x19B, size: 0x8, addend: 0x0, symName: __ZZL25JPDKnownJiguangClassNamesvE10classNames, symObjAddr: 0x67B0, symBinAddr: 0xC0C8, symSize: 0x0 }
-  - { offset: 0x1B0, size: 0x8, addend: 0x0, symName: __ZZL25JPDKnownJiguangClassNamesvE9onceToken, symObjAddr: 0x67B8, symBinAddr: 0xC0D0, symSize: 0x0 }
+  - { offset: 0x2B, size: 0x8, addend: 0x0, symName: __ZL19JPDLastMethodCountsv, symObjAddr: 0x360, symBinAddr: 0x4360, symSize: 0x88 }
+  - { offset: 0x54, size: 0x8, addend: 0x0, symName: __ZZL19JPDLastMethodCountsvE12methodCounts, symObjAddr: 0x67B0, symBinAddr: 0xC0B8, symSize: 0x0 }
+  - { offset: 0x69, size: 0x8, addend: 0x0, symName: __ZZL19JPDLastMethodCountsvE9onceToken, symObjAddr: 0x67B8, symBinAddr: 0xC0C0, symSize: 0x0 }
+  - { offset: 0x13A, size: 0x8, addend: 0x0, symName: __ZL23JPDCompletedInitialScan, symObjAddr: 0x67A0, symBinAddr: 0xC0A8, symSize: 0x0 }
+  - { offset: 0x165, size: 0x8, addend: 0x0, symName: __ZL24JPDLastRuntimeClassCount, symObjAddr: 0x67A8, symBinAddr: 0xC0B0, symSize: 0x0 }
+  - { offset: 0x172, size: 0x8, addend: 0x0, symName: __ZL25JPDKnownJiguangClassNamesv, symObjAddr: 0x808, symBinAddr: 0x4808, symSize: 0x88 }
+  - { offset: 0x19B, size: 0x8, addend: 0x0, symName: __ZZL25JPDKnownJiguangClassNamesvE10classNames, symObjAddr: 0x67C0, symBinAddr: 0xC0C8, symSize: 0x0 }
+  - { offset: 0x1B0, size: 0x8, addend: 0x0, symName: __ZZL25JPDKnownJiguangClassNamesvE9onceToken, symObjAddr: 0x67C8, symBinAddr: 0xC0D0, symSize: 0x0 }
   - { offset: 0x201, size: 0x8, addend: 0x0, symName: __ZL24_logosLocalCtor_28935dd4iPPcS0_, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x54 }
-  - { offset: 0x245, size: 0x8, addend: 0x0, symName: __ZL15JPDInstallHooksv, symObjAddr: 0x54, symBinAddr: 0x4054, symSize: 0x2C4 }
-  - { offset: 0x2EA, size: 0x8, addend: 0x0, symName: __ZL15JPDImageDidLoadPK11mach_headerl, symObjAddr: 0x318, symBinAddr: 0x4318, symSize: 0x38 }
-  - { offset: 0x3BC, size: 0x8, addend: 0x0, symName: __ZL22JPDIsKnownJiguangClassPKc, symObjAddr: 0x3D8, symBinAddr: 0x43D8, symSize: 0x11C }
-  - { offset: 0x3E8, size: 0x8, addend: 0x0, symName: __ZL17JPDClassNeedsScanP10objc_class, symObjAddr: 0x4F4, symBinAddr: 0x44F4, symSize: 0x180 }
-  - { offset: 0x43E, size: 0x8, addend: 0x0, symName: __ZL27JPDRememberClassMethodCountP10objc_class, symObjAddr: 0x674, symBinAddr: 0x4674, symSize: 0x12C }
-  - { offset: 0x474, size: 0x8, addend: 0x0, symName: ____ZL19JPDLastMethodCountsv_block_invoke, symObjAddr: 0x7A0, symBinAddr: 0x47A0, symSize: 0x58 }
-  - { offset: 0x49C, size: 0x8, addend: 0x0, symName: ____ZL25JPDKnownJiguangClassNamesv_block_invoke, symObjAddr: 0x880, symBinAddr: 0x4880, symSize: 0x60 }
-  - { offset: 0x4C4, size: 0x8, addend: 0x0, symName: __ZL14JPDMethodCountP10objc_class, symObjAddr: 0x8E0, symBinAddr: 0x48E0, symSize: 0x44 }
-  - { offset: 0x827, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4924, symSize: 0x16C }
-  - { offset: 0x858, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4924, symSize: 0x16C }
-  - { offset: 0x8FE, size: 0x8, addend: 0x0, symName: __ZL25JPDShouldPreserveSelectorP13objc_selector, symObjAddr: 0x16C, symBinAddr: 0x4A90, symSize: 0x3DC }
-  - { offset: 0x938, size: 0x8, addend: 0x0, symName: __ZL23JPDReplacementForMethodP11objc_method, symObjAddr: 0x548, symBinAddr: 0x4E6C, symSize: 0xF0 }
-  - { offset: 0x964, size: 0x8, addend: 0x0, symName: __ZL26JPDDisabledMethodSignatureP11objc_objectP13objc_selectorS2_, symObjAddr: 0x788, symBinAddr: 0x50AC, symSize: 0x1A4 }
-  - { offset: 0x9D7, size: 0x8, addend: 0x0, symName: __ZL28JPDDisabledForwardInvocationP11objc_objectP13objc_selectorP12NSInvocation, symObjAddr: 0x92C, symBinAddr: 0x5250, symSize: 0x184 }
-  - { offset: 0xA37, size: 0x8, addend: 0x0, symName: __ZL22JPDReturnTypeForMethodP11objc_method, symObjAddr: 0xAB0, symBinAddr: 0x53D4, symSize: 0x168 }
-  - { offset: 0xA7F, size: 0x8, addend: 0x0, symName: __ZL15JPDDisabledVoidP11objc_objectP13objc_selectorz, symObjAddr: 0xC18, symBinAddr: 0x553C, symSize: 0x58 }
-  - { offset: 0xAB6, size: 0x8, addend: 0x0, symName: __ZL17JPDDisabledObjectP11objc_objectP13objc_selectorz, symObjAddr: 0xC70, symBinAddr: 0x5594, symSize: 0x5C }
-  - { offset: 0xAF1, size: 0x8, addend: 0x0, symName: __ZL24JPDDisabledFloatingPointP11objc_objectP13objc_selectorz, symObjAddr: 0xCCC, symBinAddr: 0x55F0, symSize: 0x5C }
-  - { offset: 0xB2C, size: 0x8, addend: 0x0, symName: __ZL18JPDDisabledIntegerP11objc_objectP13objc_selectorz, symObjAddr: 0xD28, symBinAddr: 0x564C, symSize: 0x5C }
+  - { offset: 0x245, size: 0x8, addend: 0x0, symName: __ZL15JPDInstallHooksv, symObjAddr: 0x54, symBinAddr: 0x4054, symSize: 0x2D4 }
+  - { offset: 0x2EA, size: 0x8, addend: 0x0, symName: __ZL15JPDImageDidLoadPK11mach_headerl, symObjAddr: 0x328, symBinAddr: 0x4328, symSize: 0x38 }
+  - { offset: 0x3BC, size: 0x8, addend: 0x0, symName: __ZL22JPDIsKnownJiguangClassPKc, symObjAddr: 0x3E8, symBinAddr: 0x43E8, symSize: 0x11C }
+  - { offset: 0x3E8, size: 0x8, addend: 0x0, symName: __ZL17JPDClassNeedsScanP10objc_class, symObjAddr: 0x504, symBinAddr: 0x4504, symSize: 0x180 }
+  - { offset: 0x43E, size: 0x8, addend: 0x0, symName: __ZL27JPDRememberClassMethodCountP10objc_class, symObjAddr: 0x684, symBinAddr: 0x4684, symSize: 0x12C }
+  - { offset: 0x474, size: 0x8, addend: 0x0, symName: ____ZL19JPDLastMethodCountsv_block_invoke, symObjAddr: 0x7B0, symBinAddr: 0x47B0, symSize: 0x58 }
+  - { offset: 0x49C, size: 0x8, addend: 0x0, symName: ____ZL25JPDKnownJiguangClassNamesv_block_invoke, symObjAddr: 0x890, symBinAddr: 0x4890, symSize: 0x60 }
+  - { offset: 0x4C4, size: 0x8, addend: 0x0, symName: __ZL14JPDMethodCountP10objc_class, symObjAddr: 0x8F0, symBinAddr: 0x48F0, symSize: 0x44 }
+  - { offset: 0x827, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4934, symSize: 0x1A0 }
+  - { offset: 0x847, size: 0x8, addend: 0x0, symName: __ZL27JPDShouldNeutralizeSelectorP13objc_selector, symObjAddr: 0x57C, symBinAddr: 0x4EB0, symSize: 0x130 }
+  - { offset: 0x870, size: 0x8, addend: 0x0, symName: __ZZL27JPDShouldNeutralizeSelectorP13objc_selectorE8prefixes, symObjAddr: 0x1268, symBinAddr: 0x8188, symSize: 0x0 }
+  - { offset: 0x8D9, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4934, symSize: 0x1A0 }
+  - { offset: 0x98D, size: 0x8, addend: 0x0, symName: __ZL25JPDShouldPreserveSelectorP13objc_selector, symObjAddr: 0x1A0, symBinAddr: 0x4AD4, symSize: 0x3DC }
+  - { offset: 0x9C7, size: 0x8, addend: 0x0, symName: __ZL23JPDReplacementForMethodP11objc_method, symObjAddr: 0x6AC, symBinAddr: 0x4FE0, symSize: 0xF0 }
+  - { offset: 0x9F3, size: 0x8, addend: 0x0, symName: __ZL26JPDDisabledMethodSignatureP11objc_objectP13objc_selectorS2_, symObjAddr: 0x8EC, symBinAddr: 0x5220, symSize: 0x1A4 }
+  - { offset: 0xA66, size: 0x8, addend: 0x0, symName: __ZL28JPDDisabledForwardInvocationP11objc_objectP13objc_selectorP12NSInvocation, symObjAddr: 0xA90, symBinAddr: 0x53C4, symSize: 0x184 }
+  - { offset: 0xAC6, size: 0x8, addend: 0x0, symName: __ZL12JPDHasPrefixPKcS0_, symObjAddr: 0xC14, symBinAddr: 0x5548, symSize: 0x54 }
+  - { offset: 0xB00, size: 0x8, addend: 0x0, symName: __ZL22JPDReturnTypeForMethodP11objc_method, symObjAddr: 0xC68, symBinAddr: 0x559C, symSize: 0x168 }
+  - { offset: 0xB48, size: 0x8, addend: 0x0, symName: __ZL15JPDDisabledVoidP11objc_objectP13objc_selectorz, symObjAddr: 0xDD0, symBinAddr: 0x5704, symSize: 0x58 }
+  - { offset: 0xB7F, size: 0x8, addend: 0x0, symName: __ZL17JPDDisabledObjectP11objc_objectP13objc_selectorz, symObjAddr: 0xE28, symBinAddr: 0x575C, symSize: 0x5C }
+  - { offset: 0xBBA, size: 0x8, addend: 0x0, symName: __ZL24JPDDisabledFloatingPointP11objc_objectP13objc_selectorz, symObjAddr: 0xE84, symBinAddr: 0x57B8, symSize: 0x5C }
+  - { offset: 0xBF5, size: 0x8, addend: 0x0, symName: __ZL18JPDDisabledIntegerP11objc_objectP13objc_selectorz, symObjAddr: 0xEE0, symBinAddr: 0x5814, symSize: 0x5C }
 ...
