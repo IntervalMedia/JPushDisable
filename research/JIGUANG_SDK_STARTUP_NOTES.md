@@ -56,6 +56,26 @@ This is intentionally narrower than allowing `JCOREService` or
 registration behavior and should only be admitted after a device crash log
 identifies a specific required selector.
 
+## Launch incident analysis (2026-09-09)
+
+The supplied crash report is not a Jiguang selector failure. Its main-thread
+stack is:
+
+`NSUbiquitousKeyValueStore defaultStore` → `LLHUUID` → `LLHLogKit` →
+`LLHSDKCoreConfigurator` → `LLHSDK.application`.
+
+The termination is `EXC_GUARD` with the explicit reason: “Trying to initialize
+NSUbiquitousKeyValueStore without a store identifier.” The report also shows
+the process-launch watchdog separately. This means the app has an independent
+LLH logging/iCloud-store configuration fault; allowing Jiguang classes cannot
+repair that stack and could re-enable JPush traffic.
+
+The console count of 4,778 methods also exposed an avoidable startup cost. The
+tweak previously walked every known class on every dyld image callback. The
+current build caches each class/metaclass method-table size and repeats the
+walk only when a later image adds methods, preserving category coverage without
+repeated full mutation passes.
+
 ## Evidence still needed
 
 The local tests cannot reproduce a device launch. The next probe needs the

@@ -61,6 +61,8 @@ class JiguangCoverageTests(unittest.TestCase):
 
         self.assertIn("objc_copyClassList", tweak_source)
         self.assertIn("_dyld_register_func_for_add_image", tweak_source)
+        self.assertIn("JPDLastMethodCounts", tweak_source)
+        self.assertIn("JPDClassNeedsScan", tweak_source)
         self.assertNotIn("hookedClassNames", tweak_source + neutralizer_source)
         self.assertIn(
             "method_getImplementation(method) == replacement", neutralizer_source

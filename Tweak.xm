@@ -32,6 +32,37 @@ static BOOL JPDIsKnownJiguangClass(const char *className) {
             containsObject:[NSString stringWithUTF8String:className]];
 }
 
+static NSUInteger JPDMethodCount(Class targetClass) {
+    unsigned int methodCount = 0;
+    Method *methods = class_copyMethodList(targetClass, &methodCount);
+    free(methods);
+    return methodCount;
+}
+
+static NSMutableDictionary<NSValue *, NSNumber *> *JPDLastMethodCounts(void) {
+    static NSMutableDictionary<NSValue *, NSNumber *> *methodCounts;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        methodCounts = [NSMutableDictionary dictionary];
+    });
+    return methodCounts;
+}
+
+static BOOL JPDClassNeedsScan(Class targetClass) {
+    NSValue *key = [NSValue valueWithPointer:(__bridge const void *)(targetClass)];
+    NSNumber *lastCount = JPDLastMethodCounts()[key];
+    NSUInteger currentCount = JPDMethodCount(targetClass);
+    if (lastCount != nil && lastCount.unsignedIntegerValue == currentCount) {
+        return NO;
+    }
+    return YES;
+}
+
+static void JPDRememberClassMethodCount(Class targetClass) {
+    NSValue *key = [NSValue valueWithPointer:(__bridge const void *)(targetClass)];
+    JPDLastMethodCounts()[key] = @(JPDMethodCount(targetClass));
+}
+
 static void JPDInstallHooks(void) {
     unsigned int classCount = 0;
     Class *classes = objc_copyClassList(&classCount);
@@ -40,28 +71,38 @@ static void JPDInstallHooks(void) {
     }
 
     NSUInteger hookedCount = 0;
-    for (unsigned int index = 0; index < classCount; index++) {
-        Class cls = classes[index];
-        const char *runtimeClassName = class_getName(cls);
-        if (!JPDIsKnownJiguangClass(runtimeClassName)) {
-            continue;
-        }
+    NSUInteger scannedClassCount = 0;
+    @synchronized (JPDLastMethodCounts()) {
+        for (unsigned int index = 0; index < classCount; index++) {
+            Class cls = classes[index];
+            const char *runtimeClassName = class_getName(cls);
+            if (!JPDIsKnownJiguangClass(runtimeClassName)) {
+                continue;
+            }
 
-        // Instance methods live on the class and class methods on its
-        // metaclass. Every method declared by the IDA-identified SDK classes
-        // is neutralized, including public APIs without action-like names.
-        hookedCount += JPDNeutralizeMethodsDeclaredByClass(cls);
-        Class metaClass = object_getClass(cls);
-        if (metaClass != Nil) {
-            hookedCount += JPDNeutralizeMethodsDeclaredByClass(metaClass);
+            // Instance methods live on the class and class methods on its
+            // metaclass. Revisit a class only when a newly loaded image added
+            // methods (for example through a category).
+            if (JPDClassNeedsScan(cls)) {
+                hookedCount += JPDNeutralizeMethodsDeclaredByClass(cls);
+                JPDRememberClassMethodCount(cls);
+                scannedClassCount++;
+            }
+
+            Class metaClass = object_getClass(cls);
+            if (metaClass != Nil && JPDClassNeedsScan(metaClass)) {
+                hookedCount += JPDNeutralizeMethodsDeclaredByClass(metaClass);
+                JPDRememberClassMethodCount(metaClass);
+                scannedClassCount++;
+            }
         }
     }
 
     free(classes);
 
 #if DEBUG
-    NSLog(@"[JPushDisable] Disabled %lu Jiguang method(s)",
-          (unsigned long)hookedCount);
+    NSLog(@"[JPushDisable] Disabled %lu Jiguang method(s); scanned %lu class tables",
+          (unsigned long)hookedCount, (unsigned long)scannedClassCount);
 #else
     (void)hookedCount;
 #endif
