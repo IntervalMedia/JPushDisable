@@ -49,7 +49,8 @@ class JiguangCoverageTests(unittest.TestCase):
     def test_every_declared_method_has_a_safe_neutralization_path(self) -> None:
         neutralizer_source = (REPO_ROOT / "JPDMethodNeutralizer.mm").read_text()
 
-        self.assertNotIn("JPDIsBlockedSelector", neutralizer_source)
+        self.assertIn("JPDShouldPreserveSelector", neutralizer_source)
+        self.assertIn('strcmp(name, "init")', neutralizer_source)
         self.assertIn("_objc_msgForward", neutralizer_source)
         for return_encoding in ("f", "d", "D", ":", "*"):
             self.assertIn(f"case '{return_encoding}':", neutralizer_source)

@@ -3,6 +3,7 @@
 #import <objc/message.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void JPDDisabledVoid(id self, SEL _cmd, ...) {
     (void)self;
@@ -67,6 +68,50 @@ static char JPDReturnTypeForMethod(Method method) {
     return *type;
 }
 
+// The blacklist must not break NSObject's construction and runtime contract.
+// Jiguang objects are still allowed to be allocated, initialized, copied,
+// queried, and released; their SDK operations remain neutralized below.
+static BOOL JPDShouldPreserveSelector(SEL selector) {
+    const char *name = sel_getName(selector);
+    if (name == NULL) {
+        return NO;
+    }
+
+    if (strcmp(name, "init") == 0 || strncmp(name, "initWith", 8) == 0 ||
+        strcmp(name, "new") == 0 || strcmp(name, "alloc") == 0 ||
+        strcmp(name, "allocWithZone:") == 0 || strcmp(name, "dealloc") == 0 ||
+        strcmp(name, "copyWithZone:") == 0 ||
+        strcmp(name, "mutableCopyWithZone:") == 0) {
+        return YES;
+    }
+
+    if (strcmp(name, "class") == 0 || strcmp(name, "superclass") == 0 ||
+        strcmp(name, "self") == 0 || strcmp(name, "zone") == 0 ||
+        strcmp(name, "isKindOfClass:") == 0 ||
+        strcmp(name, "isMemberOfClass:") == 0 ||
+        strcmp(name, "conformsToProtocol:") == 0 ||
+        strcmp(name, "respondsToSelector:") == 0 ||
+        strcmp(name, "isEqual:") == 0 || strcmp(name, "hash") == 0 ||
+        strcmp(name, "description") == 0 ||
+        strcmp(name, "debugDescription") == 0 ||
+        strcmp(name, "isProxy") == 0 || strcmp(name, "retain") == 0 ||
+        strcmp(name, "release") == 0 || strcmp(name, "autorelease") == 0 ||
+        strcmp(name, "retainCount") == 0 ||
+        strcmp(name, "allowsWeakReference") == 0 ||
+        strcmp(name, "retainWeakReference") == 0) {
+        return YES;
+    }
+
+    // These are common JCore singleton entry points. Returning the real
+    // singleton keeps dependent application code alive; methods invoked on it
+    // are still neutralized unless they are themselves runtime plumbing.
+    return strcmp(name, "sharedInstance") == 0 ||
+           strcmp(name, "sharedManager") == 0 ||
+           strcmp(name, "defaultManager") == 0 ||
+           strcmp(name, "defaultService") == 0 ||
+           strcmp(name, "service") == 0 || strcmp(name, "instance") == 0;
+}
+
 static IMP JPDReplacementForMethod(Method method) {
     switch (JPDReturnTypeForMethod(method)) {
         case 'v':
@@ -106,7 +151,8 @@ NSUInteger JPDNeutralizeMethodsDeclaredByClass(Class targetClass) {
     for (unsigned int index = 0; index < methodCount; index++) {
         Method method = methods[index];
         SEL selector = method_getName(method);
-        if (selector == @selector(methodSignatureForSelector:) ||
+        if (JPDShouldPreserveSelector(selector) ||
+            selector == @selector(methodSignatureForSelector:) ||
             selector == @selector(forwardInvocation:)) {
             continue;
         }

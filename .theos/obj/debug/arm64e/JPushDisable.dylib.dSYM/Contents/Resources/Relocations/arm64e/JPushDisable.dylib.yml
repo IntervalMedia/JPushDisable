@@ -11,14 +11,15 @@ relocations:
   - { offset: 0x1FA, size: 0x8, addend: 0x0, symName: __ZL15JPDImageDidLoadPK11mach_headerl, symObjAddr: 0x15C, symBinAddr: 0x415C, symSize: 0x38 }
   - { offset: 0x230, size: 0x8, addend: 0x0, symName: __ZL22JPDIsKnownJiguangClassPKc, symObjAddr: 0x194, symBinAddr: 0x4194, symSize: 0x11C }
   - { offset: 0x2F8, size: 0x8, addend: 0x0, symName: ____ZL25JPDKnownJiguangClassNamesv_block_invoke, symObjAddr: 0x338, symBinAddr: 0x4338, symSize: 0x60 }
-  - { offset: 0x47F, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4398, symSize: 0x15C }
-  - { offset: 0x4B0, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4398, symSize: 0x15C }
-  - { offset: 0x556, size: 0x8, addend: 0x0, symName: __ZL23JPDReplacementForMethodP11objc_method, symObjAddr: 0x15C, symBinAddr: 0x44F4, symSize: 0xF0 }
-  - { offset: 0x582, size: 0x8, addend: 0x0, symName: __ZL26JPDDisabledMethodSignatureP11objc_objectP13objc_selectorS2_, symObjAddr: 0x39C, symBinAddr: 0x4734, symSize: 0x1A4 }
-  - { offset: 0x5F5, size: 0x8, addend: 0x0, symName: __ZL28JPDDisabledForwardInvocationP11objc_objectP13objc_selectorP12NSInvocation, symObjAddr: 0x540, symBinAddr: 0x48D8, symSize: 0x184 }
-  - { offset: 0x655, size: 0x8, addend: 0x0, symName: __ZL22JPDReturnTypeForMethodP11objc_method, symObjAddr: 0x6C4, symBinAddr: 0x4A5C, symSize: 0x168 }
-  - { offset: 0x69D, size: 0x8, addend: 0x0, symName: __ZL15JPDDisabledVoidP11objc_objectP13objc_selectorz, symObjAddr: 0x82C, symBinAddr: 0x4BC4, symSize: 0x58 }
-  - { offset: 0x6D4, size: 0x8, addend: 0x0, symName: __ZL17JPDDisabledObjectP11objc_objectP13objc_selectorz, symObjAddr: 0x884, symBinAddr: 0x4C1C, symSize: 0x5C }
-  - { offset: 0x70F, size: 0x8, addend: 0x0, symName: __ZL24JPDDisabledFloatingPointP11objc_objectP13objc_selectorz, symObjAddr: 0x8E0, symBinAddr: 0x4C78, symSize: 0x5C }
-  - { offset: 0x74A, size: 0x8, addend: 0x0, symName: __ZL18JPDDisabledIntegerP11objc_objectP13objc_selectorz, symObjAddr: 0x93C, symBinAddr: 0x4CD4, symSize: 0x5C }
+  - { offset: 0x47F, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4398, symSize: 0x16C }
+  - { offset: 0x4B0, size: 0x8, addend: 0x0, symName: _JPDNeutralizeMethodsDeclaredByClass, symObjAddr: 0x0, symBinAddr: 0x4398, symSize: 0x16C }
+  - { offset: 0x556, size: 0x8, addend: 0x0, symName: __ZL25JPDShouldPreserveSelectorP13objc_selector, symObjAddr: 0x16C, symBinAddr: 0x4504, symSize: 0x3DC }
+  - { offset: 0x590, size: 0x8, addend: 0x0, symName: __ZL23JPDReplacementForMethodP11objc_method, symObjAddr: 0x548, symBinAddr: 0x48E0, symSize: 0xF0 }
+  - { offset: 0x5BC, size: 0x8, addend: 0x0, symName: __ZL26JPDDisabledMethodSignatureP11objc_objectP13objc_selectorS2_, symObjAddr: 0x788, symBinAddr: 0x4B20, symSize: 0x1A4 }
+  - { offset: 0x62F, size: 0x8, addend: 0x0, symName: __ZL28JPDDisabledForwardInvocationP11objc_objectP13objc_selectorP12NSInvocation, symObjAddr: 0x92C, symBinAddr: 0x4CC4, symSize: 0x184 }
+  - { offset: 0x68F, size: 0x8, addend: 0x0, symName: __ZL22JPDReturnTypeForMethodP11objc_method, symObjAddr: 0xAB0, symBinAddr: 0x4E48, symSize: 0x168 }
+  - { offset: 0x6D7, size: 0x8, addend: 0x0, symName: __ZL15JPDDisabledVoidP11objc_objectP13objc_selectorz, symObjAddr: 0xC18, symBinAddr: 0x4FB0, symSize: 0x58 }
+  - { offset: 0x70E, size: 0x8, addend: 0x0, symName: __ZL17JPDDisabledObjectP11objc_objectP13objc_selectorz, symObjAddr: 0xC70, symBinAddr: 0x5008, symSize: 0x5C }
+  - { offset: 0x749, size: 0x8, addend: 0x0, symName: __ZL24JPDDisabledFloatingPointP11objc_objectP13objc_selectorz, symObjAddr: 0xCCC, symBinAddr: 0x5064, symSize: 0x5C }
+  - { offset: 0x784, size: 0x8, addend: 0x0, symName: __ZL18JPDDisabledIntegerP11objc_objectP13objc_selectorz, symObjAddr: 0xD28, symBinAddr: 0x50C0, symSize: 0x5C }
 ...

@@ -12,6 +12,7 @@ static NSUInteger executionCount = 0;
 
 @interface JPDNeutralizerFixture : NSObject
 + (NSInteger)classOperation;
+- (instancetype)init;
 - (void)voidOperation;
 - (id)objectOperation;
 - (NSUInteger)integerOperation;
@@ -20,6 +21,14 @@ static NSUInteger executionCount = 0;
 @end
 
 @implementation JPDNeutralizerFixture
+
+- (instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        executionCount++;
+    }
+    return self;
+}
 
 + (NSInteger)classOperation {
     executionCount++;
@@ -51,7 +60,6 @@ static NSUInteger executionCount = 0;
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
-    executionCount++;
     return [super methodSignatureForSelector:selector];
 }
 
@@ -63,6 +71,10 @@ int main(void) {
         JPDNeutralizeMethodsDeclaredByClass(object_getClass(JPDNeutralizerFixture.class));
 
         JPDNeutralizerFixture *fixture = [JPDNeutralizerFixture new];
+        if (fixture == nil || executionCount != 1) {
+            return 4;
+        }
+        NSUInteger executionCountAfterInit = executionCount;
         [fixture voidOperation];
         if ([JPDNeutralizerFixture classOperation] != 0 ||
             [fixture objectOperation] != nil ||
@@ -76,6 +88,6 @@ int main(void) {
             return 2;
         }
 
-        return executionCount == 0 ? 0 : 3;
+        return executionCount == executionCountAfterInit ? 0 : 3;
     }
 }
