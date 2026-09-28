@@ -5,26 +5,78 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef JPD_TRACE_BLOCKED_CALLS
+#define JPD_TRACE_BLOCKED_CALLS 0
+#endif
+
+#ifndef JPD_TRACE_BLOCKED_CALL_LIMIT
+#define JPD_TRACE_BLOCKED_CALL_LIMIT 100
+#endif
+
+#if JPD_TRACE_BLOCKED_CALLS
+static NSMutableSet<NSString *> *JPDSeenBlockedCalls(void) {
+    static NSMutableSet<NSString *> *seenCalls;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        seenCalls = [NSMutableSet set];
+    });
+    return seenCalls;
+}
+
+static void JPDRecordBlockedCall(id receiver, SEL selector) {
+    Class dispatchClass = object_getClass(receiver);
+    BOOL isClassMethod = dispatchClass != Nil && class_isMetaClass(dispatchClass);
+    Class receiverClass = isClassMethod ? (Class)receiver : dispatchClass;
+    const char *className = receiverClass == Nil ? "<unknown>"
+                                                 : class_getName(receiverClass);
+    NSString *callName = [NSString
+        stringWithFormat:@"%c[%s %s]", isClassMethod ? '+' : '-', className,
+                         sel_getName(selector)];
+
+    NSMutableSet<NSString *> *seenCalls = JPDSeenBlockedCalls();
+    BOOL shouldLog = NO;
+    BOOL reachedLimit = NO;
+    @synchronized (seenCalls) {
+        if (![seenCalls containsObject:callName]) {
+            if (seenCalls.count < JPD_TRACE_BLOCKED_CALL_LIMIT) {
+                [seenCalls addObject:callName];
+                shouldLog = YES;
+            } else if (seenCalls.count == JPD_TRACE_BLOCKED_CALL_LIMIT) {
+                [seenCalls addObject:@"<limit-reported>"];
+                reachedLimit = YES;
+            }
+        }
+    }
+
+    if (shouldLog) {
+        NSLog(@"[JPushDisable][runtime-test] Blocked %@", callName);
+    } else if (reachedLimit) {
+        NSLog(@"[JPushDisable][runtime-test] Unique-call limit reached; further calls suppressed");
+    }
+}
+#else
+static inline void JPDRecordBlockedCall(id receiver, SEL selector) {
+    (void)receiver;
+    (void)selector;
+}
+#endif
+
 static void JPDDisabledVoid(id self, SEL _cmd, ...) {
-    (void)self;
-    (void)_cmd;
+    JPDRecordBlockedCall(self, _cmd);
 }
 
 static id JPDDisabledObject(id self, SEL _cmd, ...) {
-    (void)self;
-    (void)_cmd;
+    JPDRecordBlockedCall(self, _cmd);
     return nil;
 }
 
 static uintptr_t JPDDisabledInteger(id self, SEL _cmd, ...) {
-    (void)self;
-    (void)_cmd;
+    JPDRecordBlockedCall(self, _cmd);
     return 0;
 }
 
 static double JPDDisabledFloatingPoint(id self, SEL _cmd, ...) {
-    (void)self;
-    (void)_cmd;
+    JPDRecordBlockedCall(self, _cmd);
     return 0.0;
 }
 
@@ -41,8 +93,8 @@ static NSMethodSignature *JPDDisabledMethodSignature(id self, SEL _cmd,
 
 static void JPDDisabledForwardInvocation(id self, SEL _cmd,
                                          NSInvocation *invocation) {
-    (void)self;
     (void)_cmd;
+    JPDRecordBlockedCall(self, invocation.selector);
 
     NSUInteger returnLength = invocation.methodSignature.methodReturnLength;
     if (returnLength == 0) {

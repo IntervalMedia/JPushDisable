@@ -57,6 +57,16 @@ class JiguangCoverageTests(unittest.TestCase):
         for return_encoding in ("f", "d", "D", ":", "*"):
             self.assertIn(f"case '{return_encoding}':", neutralizer_source)
 
+    def test_runtime_call_tracing_is_compile_time_opt_in_and_bounded(self) -> None:
+        makefile_source = (REPO_ROOT / "Makefile").read_text()
+        neutralizer_source = (REPO_ROOT / "JPDMethodNeutralizer.mm").read_text()
+
+        self.assertIn("JPD_TRACE_BLOCKED_CALLS ?= 0", makefile_source)
+        self.assertIn("JPD_TRACE_BLOCKED_CALL_LIMIT ?= 100", makefile_source)
+        self.assertIn("#if JPD_TRACE_BLOCKED_CALLS", neutralizer_source)
+        self.assertIn("JPDRecordBlockedCall(self, _cmd)", neutralizer_source)
+        self.assertIn("further calls suppressed", neutralizer_source)
+
     def test_class_discovery_is_race_safe_and_repeats_after_image_loads(self) -> None:
         tweak_source = (REPO_ROOT / "Tweak.xm").read_text()
         neutralizer_source = (REPO_ROOT / "JPDMethodNeutralizer.mm").read_text()
